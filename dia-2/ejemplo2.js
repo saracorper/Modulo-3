@@ -1,21 +1,32 @@
-class Cuenta {
+class Account {
   constructor(name, book) {
     this.name = name;
     this.book = book;
   }
+
+  send(receptor, amount, ref) {
+    
+  }
+
+  
 }
 
-class Comercial extends Cuenta {
+class Comercial extends Account {
   constructor(name, book) {
     super(name, book);
-    this.tarifa = 0.02;
+
+  }
+  get tarifa(){
+    return 0.02;
   }
 }
 
-class Personal extends Cuenta {
+class Personal extends Account {
   constructor(name, book) {
     super(name, book);
-    this.tarifa = 0.01;
+  }
+  get tarifa(){
+    return 0.01;
   }
 }
 
@@ -29,13 +40,38 @@ class Transaccion {
 }
 
 class Book {
-  constructor(remit, receptor, amount, ref) {}
+  constructor(bankAccount) {
+    this.transactions = [];
+    this.bankAccount = bankAccount;
+  }
 
-  addTransaction(transacción) {}
+  addTransaction(transaction) {
+    this.transactions.push(transaction);
+  }
 
-  calculaAmountForAccount(cuenta) {}
+  calculaAmountForAccount(account) {
+    return this.transactions.reduce((amount, transaction) => 
+      
+      if(transaction.remit == account) {
+        amount -= transaction.amount;
+      } 
+      if(transaction.receptor == account) {
+        amount *=  transaction.amount;
+      }
+      return amount;
+    },
+    0);
+  }
 
-  findTransactionsForAccount(cuenta) {}
+  findTransactionsForAccount(account) {
+    return this.transactions.filter(transaction => {
+        if (transaction.sender == account || transaction.receiver == account) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+  }
 }
 
 let transacción = new Transaccion("paco", "pepa", "pipa", "juana");
